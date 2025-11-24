@@ -23,7 +23,7 @@ export default function ProjectCard({ project, onOpen }) {
                In local Next.js, use: 
                <Image src={project.imageCard} alt={project.title} fill className="..." /> 
             */
-            <Image 
+            <img
               src={project.imageCard}
               alt={project.title}
               className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"

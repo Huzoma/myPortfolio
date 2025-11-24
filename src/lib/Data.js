@@ -70,8 +70,8 @@ export const PROJECTS = [
     tags: ["React", "A11y", "Storybook"],
     link: "#",
     year: "2022",
-    imageCard: "/projects/lumina-card.jpg",
-    imageDetail: "/projects/lumina-detail.jpg",
+    imageCard: "/Nexsus.png",
+    imageDetail: "/Nexsus.png",
     details: {
       role: "Maintainer",
       client: "Open Source",
