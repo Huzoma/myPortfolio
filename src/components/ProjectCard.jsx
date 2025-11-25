@@ -1,7 +1,8 @@
+"use client"
+
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
-// import Image from 'next/image'; // NOTE: Use this in your local VS Code project
+import Image from 'next/image'; // NOTE: Use this in local VS Code
 
 export default function ProjectCard({ project, onOpen }) {
   return (
@@ -9,7 +10,8 @@ export default function ProjectCard({ project, onOpen }) {
       onClick={() => onOpen(project)}
       className="group flex flex-col h-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#121212] hover:border-blue-600 transition-colors cursor-pointer"
     >
-      {/* Image Area (Top) */}
+      {/* IMAGE CONTAINER */}
+      {/* v4 Update: 'aspect-4/3' and 'bg-linear-to-br' */}
       <div className="relative w-full aspect-4/3 bg-linear-to-br from-slate-200 to-slate-300 dark:from-[#1a1a1a] dark:to-[#222] overflow-hidden border-b border-slate-200 dark:border-white/10">
           
           {/* Category Badge */}
@@ -17,29 +19,28 @@ export default function ProjectCard({ project, onOpen }) {
               {project.category}
           </div>
 
-          {/* 2. Image Logic */}
+          {/* Image Logic */}
           {project.imageCard ? (
-            /* NOTE: Using standard <img> for sandbox compatibility. 
-               In local Next.js, use: 
-               <Image src={project.imageCard} alt={project.title} fill className="..." /> 
-            */
-            <img
-              src={project.imageCard}
+            /* v4 Note: Ensure your public folder images match this path exactly */
+            <Image 
+              src={project.imageCard} 
               alt={project.title}
+              fill
               className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
             />
           ) : (
-            /* Fallback Placeholder (if image is missing) */
+            /* Fallback if data is missing */
             <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-neutral-700 font-mono text-xs uppercase tracking-widest group-hover:scale-105 transition-transform duration-500">
               [ IMG_REF_{project.id} ]
             </div>
           )}
           
-          {/* Industrial Overlay (The "Shine") */}
+          {/* Overlay Shine - v4 Update: 'bg-linear-to-tr' */}
           <div className="absolute inset-0 bg-linear-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"></div>
       </div>
       
-      {/* Content Area (Bottom) */}
+      {/* TEXT CONTENT */}
+      {/* v4 Update: 'grow' instead of flex-grow */}
       <div className="p-6 md:p-8 flex flex-col grow relative">
          <div className="flex justify-between items-start mb-4">
              <h3 className="text-xl font-bold uppercase tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors font-sans">

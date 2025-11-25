@@ -1,5 +1,8 @@
+"use client"
+
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 
 /* PROJECT COMPONENTS
   - Contains both the individual 'ProjectCard' and the main 'Projects' grid section.
@@ -10,7 +13,19 @@ const ProjectCard = ({ project, onOpen }) => (
   <div onClick={() => onOpen(project)} className="group flex flex-col h-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#121212] hover:border-blue-600 transition-colors cursor-pointer">
     <div className="relative w-full aspect-4/3 bg-linear-to-br from-slate-200 to-slate-300 dark:from-[#1a1a1a] dark:to-[#222] overflow-hidden border-b border-slate-200 dark:border-white/10">
         <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-10 font-mono">{project.category}</div>
-        <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-neutral-700 font-mono text-xs uppercase tracking-widest group-hover:scale-105 transition-transform duration-500">[ IMG_REF_{project.id} ]</div>
+
+        {/* Render image from public/ via next/image when available */}
+        {project.imageCard ? (
+          <Image
+            src={project.imageCard}
+            alt={project.title}
+            fill
+            className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-neutral-700 font-mono text-xs uppercase tracking-widest group-hover:scale-105 transition-transform duration-500">[ IMG_REF_{project.id} ]</div>
+        )}
+
         <div className="absolute inset-0 bg-linear-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
     </div>
     <div className="p-6 md:p-8 flex flex-col grow relative">

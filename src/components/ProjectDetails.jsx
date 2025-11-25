@@ -119,9 +119,10 @@ export default function ProjectDetail({ project, onClose, onNext }) {
                  {/* Visual Logic: Use real image if available, else use placeholder */}
                  {project.imageDetail ? (
                     /* NOTE: In local code use <Image /> component here */
-                    <img
+                    <Image
                        src={project.imageDetail} 
                        alt={project.title}
+                         fill
                        className="absolute inset-0 w-full h-full object-cover opacity-90"
                     />
                  ) : (

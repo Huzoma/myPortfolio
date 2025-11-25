@@ -8,20 +8,18 @@ import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ProjectDetail from '@/components/ProjectDetails';
-import { PROJECTS } from '@/lib/Data';
 
-/* MAIN PAGE
-  - Manages global state (Theme, Selected Project).
-  - Orchestrates the layout of components.
-*/
+// FIX: Correctly importing from your lib folder based on your file structure
+import { PROJECTS } from '@/lib/Data';
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
 
+  // Toggle Logic
   const toggleTheme = () => setDarkMode(!darkMode);
 
-  // Sync dark mode state with HTML class
+  // Handle Dark Mode Class on <body>
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -30,9 +28,13 @@ export default function Home() {
     }
   }, [darkMode]);
 
-  const handleProjectSelect = (project) => setSelectedProject(project);
+  // Project Navigation Handlers
+  const handleProjectSelect = (project) => {
+    setSelectedProject(project);
+  };
+
   const handleBack = () => setSelectedProject(null);
-  
+
   const handleNextProject = (currentId) => {
     const currentIndex = PROJECTS.findIndex(p => p.id === currentId);
     const nextIndex = (currentIndex + 1) % PROJECTS.length;
@@ -43,7 +45,7 @@ export default function Home() {
   return (
     <main className={`min-h-screen transition-colors duration-200 ease-linear font-sans selection:bg-blue-600 selection:text-white ${darkMode ? 'dark bg-[#121212] text-white' : 'bg-slate-50 text-slate-900'}`}>
       
-      {/* Background Grid */}
+      {/* Background Grid - Global Layer */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]" 
            style={{ backgroundImage: `linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(currentColor 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
       </div>
@@ -55,6 +57,7 @@ export default function Home() {
         selectedProject={selectedProject}
       />
 
+      {/* Conditional Rendering for Detail View */}
       {selectedProject ? (
         <ProjectDetail 
           project={selectedProject} 
@@ -65,6 +68,7 @@ export default function Home() {
         <>
           <Hero />
           <TechStack />
+          {/* Pass the handler down to the Projects component */}
           <Projects projects={PROJECTS} onOpen={handleProjectSelect} />
           <Contact />
         </>

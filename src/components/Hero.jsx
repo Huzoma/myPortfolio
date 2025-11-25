@@ -24,8 +24,7 @@ export default function Hero() {
 
           <div className="flex border-l-2 border-blue-600 pl-6 mb-12 max-w-lg">
             <p className="text-slate-600 dark:text-gray-400 text-lg lg:text-xl leading-relaxed font-light">
-                Engineered for performance. Specializing in high-fidelity interfaces using React, Next.js, and strict design systems.
-            </p>
+              Creating digital experiences & engineering for the web. Converting complex requirements into streamlined, high-performance executable code.            </p>
           </div>
 
           <a href="#work" className="group bg-blue-600 text-white px-8 py-5 font-bold tracking-widest text-xs uppercase w-fit hover:bg-blue-700 transition-all flex items-center gap-4 font-mono">

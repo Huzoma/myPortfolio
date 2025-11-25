@@ -24,7 +24,7 @@ export default function Navbar({ toggleTheme, darkMode, onBack, selectedProject 
         <div className="flex-none px-6 md:px-8 flex items-center border-r border-slate-200 dark:border-white/10 w-auto md:w-64">
             <div className="w-3 h-3 bg-blue-600 mr-3"></div>
             <button onClick={onBack} className="font-black text-lg tracking-widest uppercase hover:text-blue-600 transition-colors font-sans">
-              UZO.DEV
+              UZO.IO
             </button>
         </div>
         
