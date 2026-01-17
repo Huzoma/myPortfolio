@@ -20,7 +20,7 @@ const ProjectCard = ({ project, onOpen }) => (
             src={project.imageCard}
             alt={project.title}
             fill
-            className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+            className="absolute inset-0 w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-neutral-700 font-mono text-xs uppercase tracking-widest group-hover:scale-105 transition-transform duration-500">[ IMG_REF_{project.id} ]</div>
@@ -44,7 +44,7 @@ export default function Projects({ projects, onOpen }) {
     <section id="work" className="mb-40 px-6 lg:px-20 pt-24">
       <div className="mb-16 border-b border-slate-200 dark:border-white/10 pb-8">
         <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-slate-900 dark:text-white font-sans">
-          <span className="text-blue-600">01.</span> Selected Work
+          <span className="text-blue-600">02.</span> Selected Work
         </h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

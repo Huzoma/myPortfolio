@@ -23,7 +23,7 @@ export default function ProjectDetail({ project, onClose, onNext }) {
        {/* 1. Top Bar Navigation */}
        <div className="w-full px-6 lg:px-12 py-6 flex justify-between items-center border-b border-slate-200 dark:border-white/10 bg-slate-50/95 dark:bg-[#121212]/95 backdrop-blur-sm sticky top-0 z-50 transition-colors">
           <div className="font-mono text-[10px] md:text-xs tracking-widest text-slate-500 uppercase flex items-center gap-2">
-             <span className="text-blue-600">SYSTEM</span> / PROJECTS / <span className="text-slate-900 dark:text-white">00{project.id}</span>
+             <span className="text-blue-600">SYSTEM</span> / PROJECTS / <span className="text-slate-900 dark:text-white">{project.title}</span>
           </div>
           <button onClick={onClose} className="group flex items-center gap-3 text-[10px] md:text-xs font-bold tracking-widest uppercase hover:text-blue-600 dark:hover:text-white transition-colors text-slate-500 dark:text-slate-400 font-mono">
              &lt; RETURN <span className="hidden md:inline-block border border-slate-300 dark:border-white/20 px-1 py-0.5 text-[9px] text-slate-500 group-hover:border-blue-600 group-hover:text-blue-600 transition-colors">ESC</span>
@@ -83,10 +83,10 @@ export default function ProjectDetail({ project, onClose, onNext }) {
            <div className="lg:col-span-3">
               <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6 font-mono">Links</h3>
               <div className="flex flex-col gap-4 font-mono">
-                 <a href="#" className="flex items-center gap-2 text-blue-600 font-bold uppercase tracking-wider text-xs hover:underline">
-                    Live Preview <ArrowUpRight size={14} />
+                 <a href={project.links.live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-600 font-bold uppercase tracking-wider text-xs hover:underline">
+                   Live Preview <ArrowUpRight size={14} />
                  </a>
-                 <a href="#" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-xs hover:text-blue-600 dark:hover:text-white transition-colors">
+                 <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-xs hover:text-blue-600 dark:hover:text-white transition-colors">
                     Source Code <Github size={14} />
                  </a>
               </div>
@@ -123,7 +123,7 @@ export default function ProjectDetail({ project, onClose, onNext }) {
                        src={project.imageDetail} 
                        alt={project.title}
                          fill
-                       className="absolute inset-0 w-full h-full object-cover opacity-90"
+                       className="absolute inset-0 w-full h-full object-contain opacity-90"
                     />
                  ) : (
                     <div className="w-full h-full bg-linear-to-br from-slate-300 to-slate-100 dark:from-white/5 dark:to-transparent"></div>

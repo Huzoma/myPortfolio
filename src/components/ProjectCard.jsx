@@ -26,7 +26,7 @@ export default function ProjectCard({ project, onOpen }) {
               src={project.imageCard} 
               alt={project.title}
               fill
-              className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+              className="absolute inset-0 w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
             />
           ) : (
             /* Fallback if data is missing */
