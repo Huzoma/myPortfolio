@@ -36,6 +36,7 @@ const ProjectCard = ({ project, onOpen }) => (
        <p className="text-sm text-slate-600 dark:text-neutral-400 font-mono leading-relaxed line-clamp-3">{project.description}</p>
     </div>
   </div>
+  
 );
 
 // 2. Main Section
