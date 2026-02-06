@@ -1,5 +1,8 @@
+"use client"
+
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
+import Image from 'next/image'; // 1. IMPORT THIS
 
 /* HERO COMPONENT
   - Implements the split-screen layout.
@@ -36,14 +39,26 @@ export default function Hero() {
       {/* Right Image Column (Hidden on small screens) */}
       <div className="hidden lg:flex relative bg-slate-100 dark:bg-[#0f0f0f] p-12 lg:p-20 items-center justify-center border-t lg:border-t-0 border-slate-200 dark:border-white/10 overflow-hidden">
           <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(currentColor 1px, transparent 1px)`, backgroundSize: '20px 20px' }}></div>
-          <div className="relative w-full aspect-square max-w-lg border border-slate-300 dark:border-white/20 bg-slate-200 dark:bg-[#1a1a1a] shadow-2xl">
-              <div className="absolute -top-3 -left-px bg-blue-600 text-white text-[10px] font-bold px-3 py-1 tracking-widest z-10 font-mono">
+          
+          <div className="relative w-full aspect-square max-w-lg border border-slate-300 dark:border-white/20 bg-slate-200 dark:bg-[#1a1a1a] shadow-2xl overflow-hidden group">
+              <div className="absolute -top -left-px bg-blue-600 text-white text-[10px] font-bold px-3 py-1 tracking-widest z-10 font-mono">
                   SYS_ID: 001
               </div>
-              <div className="w-full h-full bg-linear-to-br from-slate-200 to-slate-300 dark:from-neutral-800 dark:to-neutral-900 relative">
-                  <div className="absolute bottom-6 right-6 text-right">
-                      <div className="text-[10px] font-mono text-slate-400 dark:text-neutral-600 tracking-widest">COORDS: 45.92, 12.01</div>
-                      <div className="text-[10px] font-mono text-slate-400 dark:text-neutral-600 tracking-widest">STATUS: ACTIVE</div>
+              
+              {/* 2. IMAGE IMPLEMENTATION */}
+              <div className="w-full h-full relative">
+                  <Image 
+                    src="/images/Profile.png" 
+                    alt="Uzo Profile"
+                    fill
+                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                    priority // Loads this image immediately since it's above the fold
+                  />
+
+                  {/* Overlay Info (Optional - kept from previous design) */}
+                  <div className="absolute bottom-6 right-6 text-right z-20 mix-blend-difference">
+                      <div className="text-[10px] font-mono text-white tracking-widest">COORDS: 45.92, 12.01</div>
+                      <div className="text-[10px] font-mono text-white tracking-widest">STATUS: ACTIVE</div>
                   </div>
               </div>
           </div>

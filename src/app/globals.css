@@ -127,4 +127,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* --- NEW FIX: GLOBAL SMOOTH TRANSITION --- */
+  /* This forces every element to transition colors at the same speed */
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
 }
