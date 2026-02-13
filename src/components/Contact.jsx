@@ -4,31 +4,24 @@ import React, { useState } from 'react';
 import { Mail, MapPin, Loader2, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
-  // 1. STATE: To manage the form data and submission status
-  const [status, setStatus] = useState(null); // 'submitting', 'success', 'error'
-  
-  // 2. HANDLER: Sends the data to Formspree
+  const [status, setStatus] = useState(null); 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
-
     const formData = new FormData(e.target);
-    
-    
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvnegrp";
 
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       });
 
       if (response.ok) {
         setStatus('success');
-        e.target.reset(); // Clear the form
+        e.target.reset(); 
       } else {
         setStatus('error');
       }
@@ -38,7 +31,9 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="mb-40 px-6 lg:px-20 pt-20">
+    <section id="contact" className="mb-40 px-6 lg:px-20 pt-20 overflow-hidden"> 
+      {/* Added overflow-hidden to section just in case */}
+      
         <div className="grid md:grid-cols-2 gap-16 lg:gap-24">
             
             {/* LEFT COLUMN: Contact Info */}
@@ -51,22 +46,27 @@ export default function Contact() {
                       Currently accepting new contracts. If you require precision engineering for your next project, send me a message.
                     </p>
                     
-                    {/* INFO CARDS (Removed 'transition-colors' to fix sync issue) */}
+                    {/* EMAIL CARD */}
                     <div className="p-6 flex items-center gap-6 group hover:border-blue-600 border border-transparent">
                         <div className="border border-slate-200 dark:border-white/10 p-4 bg-slate-100 dark:bg-white/5 text-blue-600">
                           <Mail size={24} />
                         </div>
-                        <div>
+                        {/* FIX 1: Added min-w-0 to allow text truncation/wrapping inside flex */}
+                        <div className="min-w-0">
                           <span className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-neutral-500 block mb-1 font-mono">Email</span>
-                          <span className="text-xl font-bold text-slate-900 dark:text-white font-sans">uzomaiyke368@gmail.com</span>
+                          {/* FIX 2: Added break-all to force email to wrap if screen is too small */}
+                          <span className="text-xl font-bold text-slate-900 dark:text-white font-sans break-all">
+                            uzomaiyke368@gmail.com
+                          </span>
                         </div>
                     </div>
                     
+                    {/* LOCATION CARD */}
                     <div className="p-6 flex items-center gap-6 group hover:border-blue-600 border border-transparent">
                         <div className="border border-slate-200 dark:border-white/10 p-4 bg-slate-100 dark:bg-white/5 text-blue-600">
                           <MapPin size={24} />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <span className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-neutral-500 block mb-1 font-mono">Base</span>
                           <span className="text-xl font-bold text-slate-900 dark:text-white font-sans">Lagos, NG | Warri, NG</span>
                         </div>
@@ -81,20 +81,21 @@ export default function Contact() {
                       <label className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-neutral-400 font-mono">Name</label>
                       <input 
                         type="text" 
-                        name="name" // REQUIRED for Formspree
+                        name="name" 
                         required
                         placeholder="NAME / ORG" 
-                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-blue-600 font-mono text-sm" 
+                        // FIX 3: Ensure w-full doesn't overflow by limiting max-width
+                        className="w-full max-w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-blue-600 font-mono text-sm" 
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-neutral-400 font-mono">Mail</label>
                       <input 
                         type="email" 
-                        name="email" // REQUIRED for Formspree
+                        name="email" 
                         required
                         placeholder="EMAIL ADDRESS" 
-                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-blue-600 font-mono text-sm" 
+                        className="w-full max-w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-blue-600 font-mono text-sm" 
                       />
                     </div>
                 </div>
@@ -103,14 +104,13 @@ export default function Contact() {
                   <label className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-neutral-400 font-mono">Message</label>
                   <textarea 
                     rows={6} 
-                    name="message" // REQUIRED for Formspree
+                    name="message" 
                     required
                     placeholder="ENTER MESSAGE PARAMETERS..." 
-                    className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-blue-600 font-mono text-sm resize-none"
+                    className="w-full max-w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-blue-600 font-mono text-sm resize-none"
                   ></textarea>
                 </div>
 
-                {/* FEEDBACK BUTTON Logic */}
                 <button 
                   type="submit" 
                   disabled={status === 'submitting' || status === 'success'}
