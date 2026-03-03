@@ -2,7 +2,7 @@
 
 // 1. CONFIGURATION
 const GITHUB_USERNAME = 'Huzoma'; 
-// Add your organizations here. Leave it empty [] if you don't have any yet.
+// Adding your organization precisely as it appears in the URL
 const GITHUB_ORGS = ['Beyound-Conversation']; 
 
 export async function fetchGitHubProjects() {
@@ -13,60 +13,52 @@ export async function fetchGitHubProjects() {
     const userRepos = await userRes.json();
 
     // 3. FETCH ORGANIZATION REPOS (Simultaneously)
-    // This sweeps through all orgs in your array at the same time
     const orgPromises = GITHUB_ORGS.map(org => 
       fetch(`https://api.github.com/orgs/${org}/repos?sort=updated&direction=desc`)
         .then(res => res.ok ? res.json() : [])
     );
     const orgResults = await Promise.all(orgPromises);
-    const allOrgRepos = orgResults.flat(); // Combines all org arrays into one big list
+    const allOrgRepos = orgResults.flat(); 
 
     // 4. DEDUPLICATION (Personal overrides Org)
-    // Create a fast-lookup list of your personal repo names
     const personalRepoNames = new Set(userRepos.map(repo => repo.name.toLowerCase()));
-    
-    // Only keep org repos that DO NOT match a personal repo name
     const uniqueOrgRepos = allOrgRepos.filter(repo => !personalRepoNames.has(repo.name.toLowerCase()));
 
     // 5. COMBINE AND FILTER
-    // Merge them: Personal first, unique Org repos second
     const allRepos = [...userRepos, ...uniqueOrgRepos];
-    
-    // Remove forks and empty projects
     const portfolioRepos = allRepos.filter(repo => !repo.fork && repo.description);
 
-    // 6. THE MAPPER (Your exact UI translation layer)
+    // 6. THE MAPPER (Translation to UI)
     const mappedProjects = portfolioRepos.map((repo, index) => {
+      
+      // --- NEW STATUS LOGIC ---
+      const topics = repo.topics || [];
+      const isWIP = topics.includes('wip') || topics.includes('in-progress');
+      const projectStatus = isWIP ? 'In Development' : 'Completed';
+      
+      // Filter out the status tags so they don't show up as normal blue badges
+      const cleanTags = topics.filter(t => t !== 'wip' && t !== 'in-progress');
+
       return {
         id: repo.id,
-        // Replace hyphens with spaces
         title: repo.name.replace(/-/g, ' '), 
-        
-        // Use the main language as category, or default to "Development"
         category: repo.language || "Development", 
-        
-        // Auto-generate Figure numbers starting from 2.0
         figure: `FIG ${index + 2}.0`, 
-        
         year: new Date(repo.created_at).getFullYear().toString(),
-        
-        // IMPORTANT: Image Logic
-        // I added .toLowerCase() here to protect you from the Vercel case-sensitivity bug!
+        // toLowerCase() prevents Vercel 404 image errors
         imageCard: `/images/${repo.name.toLowerCase()}-card.jpg`, 
         imageDetail: `/images/${repo.name.toLowerCase()}-detail.jpg`,
         
-        // If you added topics in GitHub, use them. Otherwise default to 'Code'
-        tags: repo.topics && repo.topics.length > 0 ? repo.topics : ["Code"],
-        
+        tags: cleanTags.length > 0 ? cleanTags.slice(0, 3) : ["Code"],
         description: repo.description, 
         
-        // Mapping links
+        // EXPORT THE STATUS TO YOUR UI
+        status: projectStatus, 
+        
         links: {
           github: repo.html_url,
           live: repo.homepage || repo.html_url 
         },
-
-        // FALLBACK TEXT
         details: {
           role: "Lead Developer",
           challenge: "See the GitHub repository README for a detailed breakdown of technical challenges.",

@@ -28,7 +28,29 @@ const ProjectCard = ({ project, onOpen }) => (
 
         <div className="absolute inset-0 bg-linear-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
     </div>
+    
     <div className="p-6 md:p-8 flex flex-col grow relative">
+       
+       {/* --- NEW DYNAMIC STATUS INDICATOR --- */}
+       <div className="flex items-center gap-2 mb-3">
+         {project.status === 'Completed' ? (
+           <>
+             <div className="w-1.5 h-1.5 bg-blue-600 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.8)]"></div>
+             <span className="text-[10px] font-mono tracking-widest uppercase text-blue-600 dark:text-blue-400">
+               {project.status}
+             </span>
+           </>
+         ) : (
+           <>
+             <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
+             <span className="text-[10px] font-mono tracking-widest uppercase text-green-600 dark:text-green-400">
+               {project.status}
+             </span>
+           </>
+         )}
+       </div>
+       {/* ------------------------------------ */}
+
        <div className="flex justify-between items-start mb-4">
            <h3 className="text-xl font-bold uppercase tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors font-sans">{project.title}</h3>
            <ArrowUpRight size={20} className="text-slate-400 group-hover:text-blue-600 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
@@ -36,7 +58,6 @@ const ProjectCard = ({ project, onOpen }) => (
        <p className="text-sm text-slate-600 dark:text-neutral-400 font-mono leading-relaxed line-clamp-3">{project.description}</p>
     </div>
   </div>
-  
 );
 
 // 2. Main Section
