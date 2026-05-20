@@ -1,8 +1,8 @@
 "use client"
 
 import React from 'react';
-import { ArrowDown } from 'lucide-react';
-import Image from 'next/image'; // 1. IMPORT THIS
+import { ArrowDown, Download } from 'lucide-react';
+import Image from 'next/image';
 
 /* HERO COMPONENT
   - Implements the split-screen layout.
@@ -30,10 +30,31 @@ export default function Hero() {
               Creating digital experiences & engineering for the web. Converting complex requirements into streamlined, high-performance executable code.            </p>
           </div>
 
-          <a href="#work" className="group bg-blue-600 text-white px-8 py-5 font-bold tracking-widest text-xs uppercase w-fit hover:bg-blue-700 transition-all flex items-center gap-4 font-mono">
-            View Projects 
-            <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
-          </a>
+          {/* CTA BUTTON GROUP */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-fit">
+            
+            {/* View Projects Link */}
+            <a href="#work" className="group bg-blue-600 text-white px-8 py-5 font-bold tracking-widest text-xs uppercase w-full sm:w-fit hover:bg-blue-700 transition-all flex items-center justify-center gap-4 font-mono">
+              View Projects 
+              <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
+            </a>
+
+            {/* Live-Syncing Google Docs Download CV Button */}
+            <a 
+              href="https://docs.google.com/document/d/1eMO6fuHhQyfydQatEytBUDze3mh7RD4dovcYuBkvl3c/export?format=pdf"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center gap-4 px-8 py-5 border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 hover:border-blue-600 transition-colors cursor-pointer w-full sm:w-fit font-mono"
+            >
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                Download CV
+              </span>
+              <div className="text-slate-400 group-hover:text-blue-600 transition-colors">
+                <Download size={16} />
+              </div>
+            </a>
+
+          </div>
       </div>
 
       {/* Right Image Column (Hidden on small screens) */}
@@ -45,17 +66,15 @@ export default function Hero() {
                   SYS_ID: 001
               </div>
               
-              {/* 2. IMAGE IMPLEMENTATION */}
               <div className="w-full h-full relative">
                   <Image 
                     src="/images/Profile.png" 
                     alt="Uzo Profile"
                     fill
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                    priority // Loads this image immediately since it's above the fold
+                    priority 
                   />
 
-                  {/* Overlay Info (Optional - kept from previous design) */}
                   <div className="absolute bottom-6 right-6 text-right z-20 mix-blend-difference">
                       <div className="text-[10px] font-mono text-white tracking-widest">COORDS: 45.92, 12.01</div>
                       <div className="text-[10px] font-mono text-white tracking-widest">STATUS: ACTIVE</div>
