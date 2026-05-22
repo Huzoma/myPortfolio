@@ -2,17 +2,46 @@
 
 // 1. CONFIGURATION
 const GITHUB_USERNAME = 'Huzoma'; 
-// Adding your organization precisely as it appears in the URL
 const GITHUB_ORGS = ['Beyound-Conversation']; 
+
+// 2. RICH CONTENT DICTIONARY
+// Keys must exactly match the repository name in lowercase.
+const projectNarratives = {
+  'myportfolio': {
+    role: "Lead Frontend Engineer",
+    challenge: "Overcoming strict Linux case-sensitivity on Vercel for dynamic image rendering and managing complex Flexbox stacking contexts across diverse mobile viewport widths.",
+    solution: "Engineered a strict lowercase asset pipeline via Git MV commands and implemented responsive utility constraints to guarantee fluid layout scaling without horizontal overflow."
+  },
+  'beyond-conversation-pitch': {
+    role: "Full Stack Developer",
+    challenge: "Integrating secure payment gateways and optimizing React state for seamless ticket purchasing and media streaming without frame drops.",
+    solution: "Utilized Next.js server-side rendering for secure Stripe and Paystack API calls, optimizing React components to ensure high-performance media delivery."
+  },
+  'beacon': {
+    role: "Lead Developer",
+    challenge: "Aggregating diverse job posting formats into a unified, reliable data structure while maintaining high frontend performance.",
+    solution: "Developed a robust Next.js data pipeline coupled with a minimalist Tailwind CSS interface to prioritize fast, accessible job discovery and automated application workflows."
+  },
+  'tutor-pulse-demo': {
+    role: "Frontend Engineer",
+    challenge: "Designing an intuitive, cross-platform matching engine that pairs home-lesson tutoring jobs with qualified candidates dynamically.",
+    solution: "Built a responsive, state-driven React application utilizing modern component architecture to streamline the discovery and application process."
+  },
+  'uskillng': {
+    role: "Frontend Developer",
+    challenge: "Structuring a scalable e-learning ecosystem capable of handling varied course content and user progression tracking.",
+    solution: "Implemented a cohesive design system using Tailwind CSS within a Next.js framework to deliver a frictionless educational user experience."
+  }
+};
 
 export async function fetchGitHubProjects() {
   try {
-    // 2. FETCH PERSONAL REPOS
+    // 3. FETCH PERSONAL REPOS
     const userRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&direction=desc`);
     if (!userRes.ok) throw new Error('Failed to fetch personal projects');
     const userRepos = await userRes.json();
 
-    // 3. FETCH ORGANIZATION REPOS (Simultaneously)
+    // 4. FETCH ORGANIZATION REPOS (Simultaneously)
     const orgPromises = GITHUB_ORGS.map(org => 
       fetch(`https://api.github.com/orgs/${org}/repos?sort=updated&direction=desc`)
         .then(res => res.ok ? res.json() : [])
@@ -20,24 +49,26 @@ export async function fetchGitHubProjects() {
     const orgResults = await Promise.all(orgPromises);
     const allOrgRepos = orgResults.flat(); 
 
-    // 4. DEDUPLICATION (Personal overrides Org)
+    // 5. DEDUPLICATION (Personal overrides Org)
     const personalRepoNames = new Set(userRepos.map(repo => repo.name.toLowerCase()));
     const uniqueOrgRepos = allOrgRepos.filter(repo => !personalRepoNames.has(repo.name.toLowerCase()));
 
-    // 5. COMBINE AND FILTER
+    // 6. COMBINE AND FILTER
     const allRepos = [...userRepos, ...uniqueOrgRepos];
     const portfolioRepos = allRepos.filter(repo => !repo.fork && repo.description);
 
-    // 6. THE MAPPER (Translation to UI)
+    // 7. THE MAPPER (Translation to UI)
     const mappedProjects = portfolioRepos.map((repo, index) => {
       
-      // --- NEW STATUS LOGIC ---
+      const repoNameLower = repo.name.toLowerCase();
       const topics = repo.topics || [];
       const isWIP = topics.includes('wip') || topics.includes('in-progress');
       const projectStatus = isWIP ? 'In Development' : 'Completed';
       
-      // Filter out the status tags so they don't show up as normal blue badges
       const cleanTags = topics.filter(t => t !== 'wip' && t !== 'in-progress');
+
+      // Retrieve the specific narrative or default to an empty object
+      const narrative = projectNarratives[repoNameLower] || {};
 
       return {
         id: repo.id,
@@ -45,24 +76,24 @@ export async function fetchGitHubProjects() {
         category: repo.language || "Development", 
         figure: `FIG ${index + 2}.0`, 
         year: new Date(repo.created_at).getFullYear().toString(),
-        // toLowerCase() prevents Vercel 404 image errors
-        imageCard: `/images/${repo.name.toLowerCase()}-card.jpg`, 
-        imageDetail: `/images/${repo.name.toLowerCase()}-detail.jpg`,
+        imageCard: `/images/${repoNameLower}-card.jpg`, 
+        imageDetail: `/images/${repoNameLower}-detail.jpg`,
         
         tags: cleanTags.length > 0 ? cleanTags.slice(0, 3) : ["Code"],
         description: repo.description, 
         
-        // EXPORT THE STATUS TO YOUR UI
         status: projectStatus, 
         
         links: {
           github: repo.html_url,
           live: repo.homepage || repo.html_url 
         },
+        
+        // UPGRADED DETAILS OBJECT
         details: {
-          role: "Lead Developer",
-          challenge: "See the GitHub repository README for a detailed breakdown of technical challenges.",
-          solution: "Implemented efficient logic and modern architecture to solve the core problem."
+          role: narrative.role || "Lead Developer",
+          challenge: narrative.challenge || "See the GitHub repository README for a detailed breakdown of technical challenges.",
+          solution: narrative.solution || "Implemented efficient logic and modern architecture to solve the core problem."
         }
       };
     });
