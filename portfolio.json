@@ -1,0 +1,5 @@
+{
+  "role": "Lead Frontend Engineer",
+  "challenge": "Overcoming strict Linux case-sensitivity on Vercel for dynamic image rendering and managing complex Flexbox stacking contexts across diverse mobile viewport widths.",
+  "solution": "Engineered a strict lowercase asset pipeline via Git MV commands and implemented responsive utility constraints to guarantee fluid layout scaling without horizontal overflow."
+}

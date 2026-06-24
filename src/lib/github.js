@@ -58,7 +58,7 @@ export async function fetchGitHubProjects() {
     const portfolioRepos = allRepos.filter(repo => !repo.fork && repo.description);
 
     // 7. THE MAPPER (Translation to UI)
-    const mappedProjects = portfolioRepos.map((repo, index) => {
+    const mappedProjectsPromises = portfolioRepos.map(async (repo, index) => {
       
       const repoNameLower = repo.name.toLowerCase();
       const topics = repo.topics || [];
@@ -67,8 +67,26 @@ export async function fetchGitHubProjects() {
       
       const cleanTags = topics.filter(t => t !== 'wip' && t !== 'in-progress');
 
+      // Attempt to fetch remote portfolio.json from the default branch of the repository
+      let remoteNarrative = {};
+      const owner = repo.owner?.login;
+      const branch = repo.default_branch || 'main';
+      const url = `https://raw.githubusercontent.com/${owner}/${repo.name}/${branch}/portfolio.json`;
+
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          remoteNarrative = await res.json();
+        }
+      } catch (err) {
+        // Fail silently; fallback will be used
+      }
+
       // Retrieve the specific narrative or default to an empty object
-      const narrative = projectNarratives[repoNameLower] || {};
+      const narrative = {
+        ...projectNarratives[repoNameLower],
+        ...remoteNarrative
+      };
 
       return {
         id: repo.id,
@@ -98,6 +116,7 @@ export async function fetchGitHubProjects() {
       };
     });
 
+    const mappedProjects = await Promise.all(mappedProjectsPromises);
     return mappedProjects;
 
   } catch (error) {

@@ -1,10 +1,12 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image'; // NOTE: Use this in local VS Code
 
 export default function ProjectCard({ project, onOpen }) {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <div 
       onClick={() => onOpen(project)}
@@ -20,18 +22,19 @@ export default function ProjectCard({ project, onOpen }) {
           </div>
 
           {/* Image Logic */}
-          {project.imageCard ? (
+          {project.imageCard && !imageError ? (
             /* v4 Note: Ensure your public folder images match this path exactly */
             <Image 
               src={project.imageCard} 
               alt={project.title}
               fill
+              onError={() => setImageError(true)}
               className="absolute inset-0 w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
             />
           ) : (
             /* Fallback if data is missing */
-            <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-neutral-700 font-mono text-xs uppercase tracking-widest group-hover:scale-105 transition-transform duration-500">
-              [ IMG_REF_{project.id} ]
+            <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-neutral-700 font-mono text-[10px] uppercase tracking-widest group-hover:scale-105 transition-transform duration-500">
+              [ IMG_REF_{project.title.replace(/\s+/g, '_').toUpperCase()} ]
             </div>
           )}
           

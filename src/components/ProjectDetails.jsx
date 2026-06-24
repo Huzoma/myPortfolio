@@ -10,6 +10,8 @@ import Image from 'next/image';
 */
 
 export default function ProjectDetail({ project, onClose, onNext }) {
+  const [imageError, setImageError] = React.useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
@@ -117,12 +119,12 @@ export default function ProjectDetail({ project, onClose, onNext }) {
                  </div>
                  
                  {/* Visual Logic: Use real image if available, else use placeholder */}
-                 {project.imageDetail ? (
-                    /* NOTE: In local code use <Image /> component here */
+                 {project.imageDetail && !imageError ? (
                     <Image
                        src={project.imageDetail} 
                        alt={project.title}
-                         fill
+                       fill
+                       onError={() => setImageError(true)}
                        className="absolute inset-0 w-full h-full object-contain opacity-90"
                     />
                  ) : (
@@ -130,7 +132,7 @@ export default function ProjectDetail({ project, onClose, onNext }) {
                  )}
 
                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    {!project.imageDetail && (
+                    {(!project.imageDetail || imageError) && (
                         <span className="font-mono text-xs text-slate-400 dark:text-slate-600 uppercase tracking-widest">[ SYSTEM VISUALIZATION ]</span>
                     )}
                  </div>
