@@ -31,6 +31,11 @@ const projectNarratives = {
     role: "Frontend Developer",
     challenge: "Structuring a scalable e-learning ecosystem capable of handling varied course content and user progression tracking.",
     solution: "Implemented a cohesive design system using Tailwind CSS within a Next.js framework to deliver a frictionless educational user experience."
+  },
+  'synergy-hotels-suites-shs': {
+    role: "Lead Full Stack Developer",
+    challenge: "Building a secure hotel booking engine and live room inventory control system that handles both online payments and manual front-desk inputs without scheduling conflicts.",
+    solution: "Developed a dynamic scheduling conflict checking algorithm and integrated local storage caching with a staff dashboard interface, preparing the portal for database-backed webhooks."
   }
 };
 
