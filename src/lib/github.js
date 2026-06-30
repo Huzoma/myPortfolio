@@ -4,8 +4,10 @@
 const GITHUB_USERNAME = 'Huzoma'; 
 const GITHUB_ORGS = ['Beyound-Conversation']; 
 
-// 2. RICH CONTENT DICTIONARY
-// Keys must exactly match the repository name in lowercase.
+// Import local database
+import localDB from './portfolioDB.json';
+
+// 2. RICH CONTENT DICTIONARY (Deprecated in favor of portfolioDB.json, kept as ultimate fallback)
 const projectNarratives = {
   'myportfolio': {
     role: "Lead Frontend Engineer",
@@ -60,17 +62,40 @@ export async function fetchGitHubProjects() {
 
     // 6. COMBINE AND FILTER
     const allRepos = [...userRepos, ...uniqueOrgRepos];
-    const portfolioRepos = allRepos.filter(repo => !repo.fork && repo.description);
+    const portfolioRepos = allRepos.filter(repo => !repo.fork && (repo.description || localDB[repo.name.toLowerCase()]?.description));
 
     // 7. THE MAPPER (Translation to UI)
     const mappedProjectsPromises = portfolioRepos.map(async (repo, index) => {
       
       const repoNameLower = repo.name.toLowerCase();
       const topics = repo.topics || [];
-      const isWIP = topics.includes('wip') || topics.includes('in-progress');
-      const projectStatus = isWIP ? 'In Development' : 'Completed';
       
-      const cleanTags = topics.filter(t => t !== 'wip' && t !== 'in-progress');
+      // Load details from localDB (AI-Generated DB)
+      const dbEntry = localDB[repoNameLower] || {};
+
+      // Calculate status:
+      // Priority 1: Status defined in portfolioDB.json
+      // Priority 2: Topics/tags from GitHub
+      // Priority 3: Fallback default
+      let projectStatus = dbEntry.status;
+      if (!projectStatus) {
+        const isWIP = topics.includes('wip') || topics.includes('in-progress') || topics.includes('incomplete');
+        const isGood = topics.includes('good') || topics.includes('featured');
+        if (isGood) {
+          projectStatus = 'Good';
+        } else if (isWIP) {
+          projectStatus = 'In Progress';
+        } else {
+          projectStatus = 'Completed';
+        }
+      }
+
+      // Prioritize manual description and tags from GitHub (if they exist)
+      // Otherwise fallback to AI generated ones from portfolioDB.json
+      const description = repo.description || dbEntry.description || "No description provided.";
+      
+      const cleanTopics = topics.filter(t => !['wip', 'in-progress', 'incomplete', 'good', 'featured', 'done'].includes(t));
+      const tags = cleanTopics.length > 0 ? cleanTopics.slice(0, 3) : (dbEntry.tags || [repo.language || "Code"]);
 
       // Attempt to fetch remote portfolio.json from the default branch of the repository
       let remoteNarrative = {};
@@ -87,9 +112,10 @@ export async function fetchGitHubProjects() {
         // Fail silently; fallback will be used
       }
 
-      // Retrieve the specific narrative or default to an empty object
+      // Retrieve the specific narrative with priorities: remote file -> database entry -> hardcoded fallback
       const narrative = {
         ...projectNarratives[repoNameLower],
+        ...dbEntry,
         ...remoteNarrative
       };
 
@@ -102,9 +128,8 @@ export async function fetchGitHubProjects() {
         imageCard: `/images/${repoNameLower}-card.jpg`, 
         imageDetail: `/images/${repoNameLower}-detail.jpg`,
         
-        tags: cleanTags.length > 0 ? cleanTags.slice(0, 3) : ["Code"],
-        description: repo.description, 
-        
+        tags: tags,
+        description: description, 
         status: projectStatus, 
         
         links: {
@@ -112,7 +137,6 @@ export async function fetchGitHubProjects() {
           live: repo.homepage || repo.html_url 
         },
         
-        // UPGRADED DETAILS OBJECT
         details: {
           role: narrative.role || "Lead Developer",
           challenge: narrative.challenge || "See the GitHub repository README for a detailed breakdown of technical challenges.",

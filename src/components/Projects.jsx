@@ -33,18 +33,35 @@ const ProjectCard = ({ project, onOpen }) => (
        
        {/* --- NEW DYNAMIC STATUS INDICATOR --- */}
        <div className="flex items-center gap-2 mb-3">
-         {project.status === 'Completed' ? (
+         {(project.status === 'Good' || project.status === 'Featured') && (
+           <>
+             <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.8)]"></div>
+             <span className="text-[10px] font-mono tracking-widest uppercase text-amber-600 dark:text-amber-400">
+               Featured
+             </span>
+           </>
+         )}
+         {(project.status === 'Completed' || project.status === 'Done' || !project.status) && (project.status !== 'Good' && project.status !== 'Featured') && (
            <>
              <div className="w-1.5 h-1.5 bg-blue-600 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.8)]"></div>
              <span className="text-[10px] font-mono tracking-widest uppercase text-blue-600 dark:text-blue-400">
-               {project.status}
+               Completed
              </span>
            </>
-         ) : (
+         )}
+         {(project.status === 'In Progress' || project.status === 'WIP' || project.status === 'In Development') && (
            <>
              <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
              <span className="text-[10px] font-mono tracking-widest uppercase text-green-600 dark:text-green-400">
-               {project.status}
+               In Progress
+             </span>
+           </>
+         )}
+         {(project.status === 'Incomplete' || project.status === 'Failed') && (
+           <>
+             <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+             <span className="text-[10px] font-mono tracking-widest uppercase text-red-600 dark:text-red-400">
+               Incomplete
              </span>
            </>
          )}

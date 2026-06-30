@@ -1,0 +1,16 @@
+{
+  "styleGuide": {
+    "tone": "Insightful, professional, humble, yet technically detailed. Focuses on the 'why' behind decisions rather than just bragging.",
+    "formatting": {
+      "maxParagraphLengthLines": 3,
+      "hookStyle": "Engaging single-sentence problem description or realization.",
+      "emojis": "Strategic, max 3-4 per post, used to separate sections or highlight metrics.",
+      "hashtags": "No generic hashtag clouds. Use 2-3 specific technical hashtags (e.g., #NextJS, #WebPerformance, #SoftwareEngineering) at the very end.",
+      "structure": "Hook -> Context/Problem -> Technical Deep-Dive (the 'Aha' moment) -> Outcomes/Metrics -> Open-ended question to engage the audience."
+    }
+  },
+  "examples": [
+    "I used to think case-sensitivity in file paths was a resolved problem until we deployed our Next.js app to Vercel (running Linux containers).\n\nSuddenly, dynamic images were breaking on mobile because of a few camelCased filenames. Rather than manually renaming hundreds of files and risking import breaks, I built a strict lowercase asset pipeline in our build script.\n\nResult? Zero broken image requests and a much cleaner file structure. \n\nHow do you handle asset naming constraints in your build pipelines? #WebDevelopment #FrontendEngineering #NextJS",
+    "How do you manage bookings in real-time when inputs come from both online Stripe checkouts and manual front-desk entry?\n\nThat was the challenge for Synergy Hotels. A double booking could ruin a customer's experience. \n\nI built a state-driven scheduling conflict check using local storage caching as an offline fallback, preparing it for real-time webhooks. Front-desk agents and customers now stay in lockstep, with zero scheduling overlaps.\n\nSometimes, the simplest offline-first architecture is the most robust. #FullStack #SystemDesign #React"
+  ]
+}

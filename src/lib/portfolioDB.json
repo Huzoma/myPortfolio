@@ -1,0 +1,50 @@
+{
+  "myportfolio": {
+    "role": "Lead Frontend Engineer",
+    "challenge": "Overcoming strict Linux case-sensitivity on Vercel for dynamic image rendering and managing complex Flexbox stacking contexts across diverse mobile viewport widths.",
+    "solution": "Engineered a strict lowercase asset pipeline via Git MV commands and implemented responsive utility constraints to guarantee fluid layout scaling without horizontal overflow.",
+    "description": "My personal active developer branding portal and AI Agent dashboard, built with Next.js and Tailwind CSS.",
+    "tags": ["Next.js", "React", "Tailwind CSS", "Gemini API"],
+    "status": "Good"
+  },
+  "beyond-conversation-pitch": {
+    "role": "Full Stack Developer",
+    "challenge": "Integrating secure payment gateways and optimizing React state for seamless ticket purchasing and media streaming without frame drops.",
+    "solution": "Utilized Next.js server-side rendering for secure Stripe and Paystack API calls, optimizing React components to ensure high-performance media delivery.",
+    "description": "Event ticket landing and media streaming pitch portal built for secure, high-performance customer conversion.",
+    "tags": ["Next.js", "React", "Stripe", "Paystack", "Tailwind CSS"],
+    "status": "Completed"
+  },
+  "beacon": {
+    "role": "Lead Developer",
+    "challenge": "Aggregating diverse job posting formats into a unified, reliable data structure while maintaining high frontend performance.",
+    "solution": "Developed a robust Next.js data pipeline coupled with a minimalist Tailwind CSS interface to prioritize fast, accessible job discovery and automated application workflows.",
+    "description": "A developer-focused tech job aggregator designed with performance, accessibility, and speed in mind.",
+    "tags": ["Next.js", "React", "Tailwind CSS", "Data Pipeline"],
+    "status": "Completed"
+  },
+  "tutor-pulse-demo": {
+    "role": "Frontend Engineer",
+    "challenge": "Designing an intuitive, cross-platform matching engine that pairs home-lesson tutoring jobs with qualified candidates dynamically.",
+    "solution": "Built a responsive, state-driven React application utilizing modern component architecture to streamline the discovery and application process.",
+    "description": "On-demand educational tutoring matching dashboard demonstrating real-time visual client scheduling.",
+    "tags": ["React", "Tailwind CSS", "Component Architecture"],
+    "status": "In Progress"
+  },
+  "uskillng": {
+    "role": "Frontend Developer",
+    "challenge": "Structuring a scalable e-learning ecosystem capable of handling varied course content and user progression tracking.",
+    "solution": "Implemented a cohesive design system using Tailwind CSS within a Next.js framework to deliver a frictionless educational user experience.",
+    "description": "E-learning platform shell built with modular UI components designed for scale and curriculum progress tracking.",
+    "tags": ["Next.js", "React", "Tailwind CSS", "UX Design"],
+    "status": "Completed"
+  },
+  "synergy-hotels-suites-shs": {
+    "role": "Lead Full Stack Developer",
+    "challenge": "Building a secure hotel booking engine and live room inventory control system that handles both online payments and manual front-desk inputs without scheduling conflicts.",
+    "solution": "Developed a dynamic scheduling conflict checking algorithm and integrated local storage caching with a staff dashboard interface, preparing the portal for database-backed webhooks.",
+    "description": "A comprehensive hotel management and booking system with scheduling conflict checks and staff management tools.",
+    "tags": ["React", "Tailwind CSS", "Local Storage", "State Machine"],
+    "status": "Good"
+  }
+}
