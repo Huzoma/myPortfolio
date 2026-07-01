@@ -38,7 +38,15 @@ export async function POST(req) {
       currentDB[repoNameLower].status = status;
     }
 
-    fs.writeFileSync(dbPath, JSON.stringify(currentDB, null, 2), 'utf8');
+    try {
+      fs.writeFileSync(dbPath, JSON.stringify(currentDB, null, 2), 'utf8');
+    } catch (writeErr) {
+      console.error('Failed to write project status (likely Vercel read-only):', writeErr);
+      return NextResponse.json({ 
+        error: 'Database writes are disabled in Vercel production. Please run the Admin Dashboard locally on your computer (npm run dev) to save status updates, then commit and push to GitHub.', 
+        details: writeErr.message 
+      }, { status: 403 });
+    }
 
     return NextResponse.json({ success: true, project: currentDB[repoNameLower] });
 

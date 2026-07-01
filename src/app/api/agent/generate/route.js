@@ -93,7 +93,15 @@ export async function POST(req) {
     };
 
     // 6. Write back to portfolioDB.json
-    fs.writeFileSync(dbPath, JSON.stringify(currentDB, null, 2), 'utf8');
+    try {
+      fs.writeFileSync(dbPath, JSON.stringify(currentDB, null, 2), 'utf8');
+    } catch (writeErr) {
+      console.error('Failed to write portfolioDB.json (likely Vercel read-only):', writeErr);
+      return NextResponse.json({ 
+        error: 'Database writes are disabled in Vercel production. Please run the Admin Dashboard locally on your computer (npm run dev) to save changes, then commit and push to GitHub.', 
+        details: writeErr.message 
+      }, { status: 403 });
+    }
 
     return NextResponse.json({ 
       success: true, 
