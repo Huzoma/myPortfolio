@@ -131,13 +131,13 @@ export default function Chatbot() {
                 className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
               >
                 <div 
-                  className={`max-w-[85%] px-4 py-3 text-xs leading-relaxed ${
+                  className={`max-w-[85%] px-4 py-3 text-xs leading-relaxed break-words ${
                     msg.role === 'user' 
                       ? 'bg-blue-600 text-white font-medium shadow-[0_4px_12px_rgba(37,99,235,0.25)]' 
                       : 'bg-white/5 border border-white/10 text-slate-300 font-mono'
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                  <p className="whitespace-pre-wrap break-words">{msg.content}</p>
                 </div>
                 <span className="text-[8px] font-mono text-slate-500 mt-1 uppercase tracking-wider">
                   {msg.role === 'user' ? 'Visitor' : 'AI Agent'}
